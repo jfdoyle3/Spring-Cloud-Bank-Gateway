@@ -1,2 +1,4 @@
-# startRepo
-Repo that has my current .gitignore 2/12/2022
+## Spring Cloud API Gateway
+
+
+postman: https://www.postman.com/planetary-station-574922/workspace/springboot-bank-microservices
