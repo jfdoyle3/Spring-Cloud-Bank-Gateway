@@ -55,7 +55,7 @@ public class SpringCloudBankGatewayApplication {
 						.host("*.circuitbreaker.com")
 						.filters(f -> f.circuitBreaker(config -> config.setName("mycmd")))
 						.uri("http://httpbin.org:80"))
-                .route("route_name", r -> r.path("/api/**")
+                .route("create", r -> r.path("/api/**")
                         .filters(f -> f.filter(new AddHeaderFilter()))
                         .uri("http://localhost:8080"))
 				.build();
