@@ -2,9 +2,15 @@ package com.jfdeveloper.springcloudbankgateway;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.gateway.filter.GatewayFilter;
+import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.stereotype.Component;
+import org.springframework.web.server.ServerWebExchange;
+import reactor.core.publisher.Mono;
 
 @SpringBootApplication
 public class SpringCloudBankGatewayApplication {
@@ -24,6 +30,19 @@ public class SpringCloudBankGatewayApplication {
 //				.build();
 //	}
 
+    @Component
+    public class AddHeaderFilter implements GatewayFilter {
+
+        @Override
+        public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
+            ServerHttpRequest request = exchange.getRequest().mutate()
+                    .header("header-name", "header-value")
+                    .build();
+
+            ServerWebExchange mutatedExchange = exchange.mutate().request(request).build();
+            return chain.filter(mutatedExchange);
+        }
+    }
 	@Bean
 	public RouteLocator myRoutes(RouteLocatorBuilder builder) {
 		return builder.routes()
@@ -36,11 +55,12 @@ public class SpringCloudBankGatewayApplication {
 						.host("*.circuitbreaker.com")
 						.filters(f -> f.circuitBreaker(config -> config.setName("mycmd")))
 						.uri("http://httpbin.org:80"))
-				.route(p -> p
-						.path("/bank")
-						.filters(f -> f.addRequestHeader("Hello", "World"))
-						.uri("http://localhost:8080"))
+                .route("route_name", r -> r.path("/api/**")
+                        .filters(f -> f.filter(new AddHeaderFilter()))
+                        .uri("http://localhost:8080"))
 				.build();
 	}
+
+
 
 }
