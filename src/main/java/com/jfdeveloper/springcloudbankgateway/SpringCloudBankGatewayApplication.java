@@ -2,6 +2,7 @@ package com.jfdeveloper.springcloudbankgateway;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.route.RouteLocator;
@@ -12,7 +13,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
+
 @SpringBootApplication
+@EnableDiscoveryClient
 public class SpringCloudBankGatewayApplication {
 
 	public static void main(String[] args) {
