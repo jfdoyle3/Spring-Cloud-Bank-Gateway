@@ -16,7 +16,7 @@ import reactor.core.publisher.Mono;
 
 
 @SpringBootApplication
-@EnableEurekaServer
+@EnableDiscoveryClient
 public class SpringCloudBankGatewayApplication {
 
 	public static void main(String[] args) {
@@ -26,15 +26,15 @@ public class SpringCloudBankGatewayApplication {
 	}
 
 	// Simple Route
-//	@Bean
-//	public RouteLocator myRoutes(RouteLocatorBuilder builder) {
-//		return builder.routes()
-//				.route(p -> p
-//						.path("/get")
-//						.filters(f -> f.addRequestHeader("Hello", "World"))
-//						.uri("http://httpbin.org:80"))
-//				.build();
-//	}
+	@Bean
+	public RouteLocator myRoutes(RouteLocatorBuilder builder) {
+		return builder.routes()
+				.route(p -> p
+						.path("/get")
+						.filters(f -> f.addRequestHeader("Hello", "World"))
+						.uri("http://httpbin.org:80"))
+				.build();
+	}
 
  //   @Component
  //   public class AddHeaderFilter implements GatewayFilter {
