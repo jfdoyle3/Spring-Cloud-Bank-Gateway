@@ -36,19 +36,19 @@ public class SpringCloudBankGatewayApplication {
 				.build();
 	}
 
- //   @Component
- //   public class AddHeaderFilter implements GatewayFilter {
+    @Component
+    public class AddHeaderFilter implements GatewayFilter {
 
-//        @Override
-//        public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-//            ServerHttpRequest request = exchange.getRequest().mutate()
-//                    .header("header-name", "header-value")
-//                    .build();
-//
-//            ServerWebExchange mutatedExchange = exchange.mutate().request(request).build();
-//            return chain.filter(mutatedExchange);
-//        }
-//    }
+        @Override
+        public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
+            ServerHttpRequest request = exchange.getRequest().mutate()
+                    .header("header-name", "header-value")
+                    .build();
+
+            ServerWebExchange mutatedExchange = exchange.mutate().request(request).build();
+            return chain.filter(mutatedExchange);
+        }
+    }
 //	@Bean
 //	public RouteLocator myRoutes(RouteLocatorBuilder builder) {
 //		return builder.routes()
@@ -65,8 +65,5 @@ public class SpringCloudBankGatewayApplication {
 //                        .filters(f -> f.filter(new AddHeaderFilter()))
 //                        .uri("http://localhost:8080"))
 //				.build();
-	}
-
-
-
-//}
+//	}
+}
